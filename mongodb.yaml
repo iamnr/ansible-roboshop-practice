@@ -1,0 +1,8 @@
+- name: Install MongoDB Component
+  hosts: mongodb
+  become: yes
+  tasks: 
+  - name: Copying mongo repo
+    ansible.builtin.copy: 
+      src: mongodb.repo
+      dest: /etc/yum.repos.d/mongo.repo
