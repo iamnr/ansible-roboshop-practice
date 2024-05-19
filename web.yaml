@@ -20,4 +20,4 @@
   - name: downloading web files
     ansible.builtin.get_url:
       url: https://roboshop-builds.s3.amazonaws.com/web.zip
-      path: /tmp
+      dest: /tmp
