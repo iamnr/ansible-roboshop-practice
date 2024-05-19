@@ -1,0 +1,14 @@
+- name: web component
+  host: web
+  become: yes
+  tasks: 
+  - name: Installing nginx
+    ansible.builtin.yum:
+      name: nginx
+      state: installed
+  - name: Start and enable nginx
+    ansible.builtin.service:
+      name: nginx
+      state: started
+      enabled: true
+      
