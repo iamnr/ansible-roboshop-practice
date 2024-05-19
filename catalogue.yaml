@@ -1,0 +1,21 @@
+- name: Catalogue component
+  hosts: Catalogue
+  become: yes
+  tasks:
+  - name: steup NPM source
+    ansible.builtin.shell: "curl -sL https://rpm.nodesource.com/setup_lts.x | bash"
+
+  - name: installing nodeJS
+    ansible.builtin.yum:
+      name: nodeJS
+      state: installed
+
+  - name: check if roboshop user exists or not
+    ansible.builtin.command: id roboshop
+    register: out
+    ignore_errors: true
+    
+  - when: out.rc != 0
+    name: Creating roboshop
+    ansible.builtin.user:
+      name: roboshop
