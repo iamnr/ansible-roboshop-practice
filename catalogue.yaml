@@ -1,5 +1,5 @@
 - name: Catalogue component
-  hosts: Catalogue
+  hosts: catalogue
   become: yes
   tasks:
   - name: steup NPM source
@@ -14,7 +14,7 @@
     ansible.builtin.command: id roboshop
     register: out
     ignore_errors: true
-    
+
   - when: out.rc != 0
     name: Creating roboshop
     ansible.builtin.user:
