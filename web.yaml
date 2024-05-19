@@ -11,3 +11,13 @@
       name: nginx
       state: started
       enabled: true
+
+  - name: Remove files
+    ansible.builtin.file:
+      path: /usr/share/nginx/html/*
+      state: absent
+
+  - name: downloading web files
+    ansible.builtin.get_url:
+      url: https://roboshop-builds.s3.amazonaws.com/web.zip
+      path: /tmp
