@@ -1,5 +1,5 @@
 - name: web component
-  host: web
+  hosts: web
   become: yes
   tasks: 
   - name: Installing nginx
@@ -11,4 +11,3 @@
       name: nginx
       state: started
       enabled: true
-      
