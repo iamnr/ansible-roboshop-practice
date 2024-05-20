@@ -2,4 +2,80 @@
   hosts: user 
   become: yes
   tasks: 
-  - name: 
+  - name: Setting Up NodeJS repo
+    ansible.builtin.shell: "curl -sL https://rpm.nodesource.com/setup_lts.x | bash"
+
+  - name: Installing nodejs
+    ansible.builtin.yum:
+      name: nodejs
+      state: installed
+    
+  - name: check if roboshop user exists or not
+    ansible.builtin.command: id roboshop
+    register: out
+    ignore_errors: true
+
+  - when: out.rc != 0
+    name: Creating roboshop
+    ansible.builtin.user:
+      name: roboshop
+  
+  - name: check /app directory exists or not
+    ansible.builtin.stat:
+      path: /app
+    register: directory
+
+  - when: directory.stat.exists == False
+    name: Creating /app directory
+    ansible.builtin.file:
+      path: /app
+      state: directory
+    
+  - name: Download Catalogue
+    ansible.builtin.get_url:
+      url:  https://roboshop-builds.s3.amazonaws.com/user.zip
+      dest: /tmp
+
+  - name: Unarchive catalogue
+    ansible.builtin.unarchive:
+      src: /tmp/user.zip
+      dest: /app
+      remote_src: yes
+
+  - name: install dependencies
+    ansible.builtin.command: npm install
+    args:
+      chdir: /app
+
+  - name: Copy Catalogue service file
+    ansible.builtin.copy:
+      src: user.service
+      dest: /etc/systemd/system/user.service
+
+  - name: deamon reload
+    ansible.builtin.systemd:
+      daemon_reload: true
+
+  - name: copy mongo repo to yum.repos.d
+    ansible.builtin.copy:
+      src: mongodb.repo
+      dest: /etc/yum.repos.d/mongo.repo
+
+  - name: Install MongoDB
+    ansible.builtin.yum:
+      name: mongodb-org-shell
+      state: installed
+
+  - name: load user data
+    ansible.builtin.command: mongo --host mongodb.joindevops.online < /app/schema/user.js
+
+  - name: restart user
+    ansible.builtin.service:
+      name: user
+      state: restarted
+      enabled: true
+
+
+
+
+
