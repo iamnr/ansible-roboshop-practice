@@ -1,0 +1,5 @@
+- name: Cofniguring User Component
+  hosts: user 
+  become: yes
+  tasks: 
+  - name: 
