@@ -6,3 +6,6 @@ catalogue.devopspractice.site
 
 [web]
 web.devopspractice.site
+
+[redis]
+redis.devopspractice.site
