@@ -12,3 +12,6 @@ redis.devopspractice.site
 
 [user]
 user.devopspractice.site
+
+[cart]
+cart.devopspractice.site
