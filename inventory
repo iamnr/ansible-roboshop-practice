@@ -21,3 +21,6 @@ mysql.devopspractice.site
 
 [shipping]
 shipping.devopspractice.site
+
+[rabbitmq]
+rabbitmq.devopspractice.site
